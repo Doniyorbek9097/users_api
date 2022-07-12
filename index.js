@@ -35,6 +35,13 @@ app.post("/users/", async (req,res) => {
     return res.json({status:201, data:savedUser})
 })
 
+app.delete("/users/:id", async (req,res) => {
+    const deleted = await Users.findByIdAndRemove(req.params.id);
+    return res.json({status:200, message:"deleted", data:deleted})
+})
+
+
+
 // media routes
 app.get("/file/:filename", async (req, res) => {
     try {
