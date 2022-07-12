@@ -36,7 +36,7 @@ app.post("/users/", async (req,res) => {
 })
 
 app.delete("/users/:id", async (req,res) => {
-    const deleted = await Users.findByIdAndRemove(req.params.id);
+    const deleted = await Users.findOneAndDelete(req.params.id);
     return res.json({status:200, message:"deleted", data:deleted})
 })
 
