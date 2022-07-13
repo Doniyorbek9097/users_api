@@ -1,5 +1,3 @@
-require("dotenv").config();
-const upload = require("./routes/upload");
 const Grid = require("gridfs-stream");
 const mongoose = require("mongoose");
 const connection = require("./db");
@@ -21,7 +19,6 @@ const Users = mongoose.model("Users", schema);
 connection()
 
 
-app.use("/file", upload);
 
 
 app.get("/users/", async (req,res) => {
@@ -42,26 +39,6 @@ app.delete("/users/:id", async (req,res) => {
 
 
 
-// media routes
-app.get("/file/:filename", async (req, res) => {
-    try {
-        const file = await gfs.files.findOne({ filename: req.params.filename });
-        const readStream = gfs.createReadStream(file.filename);
-        readStream.pipe(res);
-    } catch (error) {
-        res.send("not found");
-    }
-});
-
-app.delete("/file/:filename", async (req, res) => {
-    try {
-        await gfs.files.deleteOne({ filename: req.params.filename });
-        res.send("success");
-    } catch (error) {
-        console.log(error);
-        res.send("An error occured.");
-    }
-});
 
 const port =  8080;
 app.listen(port, console.log(`Listening on port ${port}...`));
